@@ -1,11 +1,11 @@
-from mb import command,slot,gc
+from mb import _exe,gc
 _res=[]
-def temp(addr=None):
-	return command(slot(addr,2),b'get_temp',1)
-def humi(addr=None):
-	return command(slot(addr,2),b'get_humi',1)
-def temp_humi(addr=None):
-	res=command(slot(addr,2),b'get_temp_humi',2)
+def temp(addr):
+	return _exe(addr,b'get_temp',1)
+def humi(addr):
+	return _exe(addr,b'get_humi',1)
+def temp_humi(addr):
+	res=_exe(addr,b'get_temp_humi',2)
 	if isinstance(res,int):
 		t,h=res//256,res%256
 		if t>=128:t-=256

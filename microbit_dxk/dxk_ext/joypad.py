@@ -1,20 +1,19 @@
-from mb import command,slot,gc
+from mb import _exe,gc
 def conv(data):
 	x,y=data[5]*256+data[6],data[7]*256+data[8]
 	x=x-2048;y=2048-y
 	return tuple(data[:5]),(x,y)
-def values(addr=None):
-	data=command(slot(addr,7),b'get_key_val',9,True)
-	if isinstance(data,bytes):
+def values(addr):
+	data=_exe(addr,b'get_key_val',9,True)
+	try:
 		return conv(data)
-	if data==None:
+	except:
 		return None,None
-	return tuple(conv(i) for i in data)
-def keys(addr=None):
+def keys(addr):
 	return values(addr)[0]
-def stickxy(addr=None):
+def stickxy(addr):
 	return values(addr)[1]
-def stick_directions(addr=None):
+def stick_directions(addr):
 	tmp=values(addr)[1]
 	if tmp==None:return
 	xd=1 if tmp[0]>1000 else -1 if tmp[0]<-1000 else 0
